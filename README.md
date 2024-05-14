@@ -24,3 +24,9 @@ The processor supports the following instructions:
 + `rtn`               jump to address stored in $ra
 + `reboot`            directly jump to address 0
 + `halt`              all registers (including `PC`, the 8 general purpose registers and all other registers) in the processor are disabled (so the processor halts)
+
+## Pipelining
+This processor uses five stage pipelining, and handles the control hazards and data hazards properly. It can stall IF and ID phases and flush the ID/EX circuit so nothing that has been previously sent is executed while it is waiting.
+It is worth mentioning that the flush resets all the registers to zero which is equivalent to the instruction `or $r1, $r1, $r1`, which at first seems like it changes the value of the first register, but in reality, the bitwise expression x=x or x does not change anything (this is why the opcode and the funct for or are `0000` and `000` respectively), the Arguments circuit takes that into account
+The hazard unit also checks whether the instruction that is currently in the EX phase is any J-type instruction or a successful branch. If so, the IF/ID is being flushed (so no instructions that are fetched after the jump/branch can be executed).
+
