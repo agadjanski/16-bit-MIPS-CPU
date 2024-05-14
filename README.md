@@ -3,6 +3,11 @@ This is a 16-bit processor. In particular, all the registers are 16-bit, and all
 The processor has 8 general-purpose registers (`$r0 - $r7`).
 The data and instructions are stored in two separated memories, each having its own address space. Both the data and the instruction memory are addressed by 16 bits.
 
+Version 2.7.1: logisim-win-2.7.1.exe
+
+Three types of instructions are supported in our processor. Since there are 20 instructions overall, we dedicated the most significant 4 bits for the opcode. However, as 4 bits are not enough to supply every instruction with a unique opcode, we decided to give all the `R-type` instructions (namely, `add`, `and`, `or`, `lsl`, and `lsr`) except `slt`, one opcode and distinguish between them using the least significant 3 bits. Also, because there are 8 registers overall, each register could take 3 bits. Register `$rn` is formatted as the number `n` in binary (i.e., `$r0` is `000`; `$r1` is `001`; and so on).
+
+
 The processor supports the following instructions:
 + `li $r1, x` load immediate number to one register
 + `add $r1, $r2, $r3` add two register numbers (`$r2` and `$r3`) and store the result in one register (`$r1`)
